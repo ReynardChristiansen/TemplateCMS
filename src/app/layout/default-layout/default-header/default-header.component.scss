@@ -1,0 +1,16 @@
+c-header-nav {
+    a {
+      color: white; // Warna teks putih
+      text-decoration: none; // Menghilangkan underline
+  
+      &:hover {
+        color: #f0f0f0; // Mengubah warna saat hover
+        text-decoration: none; // Tetap tanpa underline saat hover
+      }
+  
+      &:focus {
+        outline: none; // Menghilangkan outline saat fokus
+      }
+    }
+  }
+  

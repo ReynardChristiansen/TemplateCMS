@@ -1,0 +1,93 @@
+<c-row ngPreserveWhitespaces>
+    <c-col xs="12">
+      <c-card class="mb-4">
+        <c-card-header>
+          <strong>Add New User</strong>
+        </c-card-header>
+        <c-card-body>
+            <form [formGroup]="userForm" id="frmAddUser">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                        <label><strong>Username</strong></label>
+                        <input class="form-control" formControlName="username" name="username" id="username" type="text" placeholder="Username Login">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="userlogin"><strong>Fullname</strong></label>
+                            <input class="form-control" formControlName="fullname" name="nama" id="nama" type="text" placeholder="Nama Lengkap">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-2 col-form-label"><strong>LDAP ?</strong></label>
+                    <div class="col-md-4 col-form-label">
+                        <div class="form-check form-check-inline mr-1">
+                            <input class="form-check-input" id="isldap_ya" type="radio" value="1" formControlName="ldap">
+                            <label class="form-check-label" for="isldap_ya">Ya</label>
+                        </div>
+                        <div class="form-check form-check-inline mr-1">
+                            <input class="form-check-input" id="isldap_tidak" type="radio" value="0" formControlName="ldap">
+                            <label class="form-check-label" for="isldap_tidak">Tidak</label>
+                          </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group" id="divpass" style="display:block;">
+                        <label for="userpass"><strong>Password</strong></label>
+                        <input class="form-control" formControlName="password" type="password" placeholder="Password Login" value="">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="divGroup" class="d-block"><strong>Group Menu</strong></label>
+                    <div class="col-6" id="divGroup">
+                      <div class="floating-box">
+                        <div class="iconSelected mb-3">
+                          <ul cListGroup>
+                            <li *ngFor="let value of selectedGroup" color="primary" cListGroupItem>
+                              {{optionsGroup[value-1].nama}}
+                            </li>
+                          </ul>
+                        </div>
+                        <input
+                          type="text"
+                          name="filter-group"
+                          placeholder="Search"
+                          class="form-control"
+                          (input)="updateFilter($event)"
+                        />
+                        <div *ngFor="let group of filteredoptionsGroup">
+                          <input 
+                            type="checkbox"
+                            [checked]="selectedGroup.includes(group.id)"
+                            (change)="onCheckboxChange(group.id, $event)">
+                          {{ group.nama }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                <br>
+                <div class="row mt-3">
+                    <div class="col-4"></div>
+                    <div class="col-4">
+                        <button type="button" id="btnSubmit" class="btn btn-lg btn-success" (click)="submitFunction()">Submit</button>
+                        <button type="button" class="btn btn-lg btn-danger" (click)="cancelFunction()">Cancel</button>
+                    </div>
+                    <div class="col-4"></div>
+                </div>
+            </form> 
+        </c-card-body>
+    </c-card>
+    </c-col>
+</c-row>
+        
+<div *ngIf="isConfirming" class="confirmation-modal">
+    <div class="confirmation-content">
+        <p>Are you sure you want to submit?</p>
+        <button class="btn btn-success mr-3" (click)="submitFunction()" [disabled]="isLoading">Yes</button>
+        <button class="btn btn-danger"(click)="cancelSubmit()">No</button>
+    </div>
+</div>

@@ -1,0 +1,68 @@
+<c-row ngPreserveWhitespaces>
+    <c-col xs="12">
+      <c-card class="mb-4">
+        <c-card-header>
+          <strong>User Edit</strong>
+        </c-card-header>
+        <c-card-body>
+          <form [formGroup]="userForm" id="frmEditUser">
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="userlogin"><strong>Nama</strong></label>
+                  <input class="form-control" formControlName="fullname" type="text" placeholder="Nama">
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="divGroup" class="d-block"><strong>Group Menu</strong></label>
+              <div class="col-6" id="divGroup">
+                <div class="floating-box">
+                  <div class="iconSelected mb-3">
+                    <ul cListGroup *ngIf="userForm.get('groups')?.value.length">
+                      <li *ngFor="let value of userForm.get('groups')?.value" color="primary" cListGroupItem>
+                        {{optionsGroup[value-1].nama}}
+                      </li>
+                    </ul>
+                  </div>
+                  <input
+                    type="text"
+                    name="filter-group"
+                    placeholder="Search"
+                    class="form-control"
+                    (input)="updateFilter($event)"
+                  />
+                  <div *ngFor="let group of filteredoptionsGroup">
+                    <input 
+                      type="checkbox"
+                      [checked]="selectedGroup.includes(group.id)"
+                      (change)="onCheckboxChange(group.id, $event)">
+                    {{ group.nama }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <br>
+            <div class="row mt-3">
+              <div class="col-4"></div>
+              <div class="col-4">
+                <button type="button" id="btnSubmit" class="btn btn-lg btn-success" (click)="openConfirmation()">Submit</button>
+                <button type="button" class="btn btn-lg btn-danger" (click)="cancelFunction()">Cancel</button>
+              </div>
+              <div class="col-4"></div>
+            </div>
+          </form>
+        </c-card-body>
+      </c-card>
+    </c-col>
+  </c-row>
+  
+<div *ngIf="isConfirming" class="confirmation-modal">
+    <div class="confirmation-content">
+        <p>Are you sure you want to submit?</p>
+        <button class="btn btn-success mr-3" (click)="submitFunction()" [disabled]="isLoading">Yes</button>
+        <button class="btn btn-danger"(click)="cancelSubmit()">No</button>
+    </div>
+</div>

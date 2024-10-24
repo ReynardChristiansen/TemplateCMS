@@ -1,0 +1,66 @@
+<c-row ngPreserveWhitespaces>
+  <c-col xs="12">
+    <c-card class="mb-4">
+      <c-card-header>
+        <strong>User List</strong>
+      </c-card-header>
+      <c-card-body>
+        <div class="mb-2" style="display: flex; justify-content: flex-end">
+          <button type="button" class="btn btn-primary" (click)="addUserGroup()">Add New User</button>
+      </div>
+      <div class="mb-3">
+          <div style="display: flex; justify-content: flex-end">
+              <input
+                  type="text"
+                  style="width:30%;"
+                  placeholder="Search"
+                  (input)="updateFilter($event)"
+              />
+          </div>
+          
+          <div style="margin: 15px;">
+              <label for="rowsPerPage">Show</label>
+              <select (change)="onLimitChange($event)">
+                <option *ngFor="let option of rowOptions" [value]="option">{{ option }}</option>
+              </select>
+              <label>rows per page</label>
+            </div>
+      
+          <ngx-datatable
+              class="bootstrap"
+              [rows]="datauser"
+              [columns]="[]"
+              [columnMode]="ColumnMode.force"
+              [headerHeight]="40"
+              [footerHeight]="40"
+              rowHeight="auto"
+              [sorts]="[{ prop: 'name', dir: 'desc' }]"
+              [limit]="rowsPerPage"
+              [count]="datauser.length" 
+          >
+        
+            <ngx-datatable-column name="Nama" prop="nama"/>
+      
+      
+      
+            <ngx-datatable-column name="Action">
+              <ng-template ngx-datatable-cell-template let-row="row">
+                  <button type="button" class="btn btn-warning mr-2" (click)="editUser(row.id)">
+                      <svg cIcon name="cil-pencil" size="xl" title="Edit User Icon"></svg>
+                  </button>
+                  
+                  <button type="button" class="btn btn-danger mr-2" (click)="deleteUser(row.id)">
+                    <svg cIcon name="cil-x" size="xl" title="Edit User Icon"></svg>
+                </button>
+              </ng-template>
+            </ngx-datatable-column>
+            
+            
+          </ngx-datatable>
+      </div>
+      </c-card-body>
+    </c-card>
+  </c-col>
+</c-row>
+
+  

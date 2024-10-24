@@ -1,0 +1,82 @@
+<c-row ngPreserveWhitespaces>
+  <c-col xs="12">
+    <c-card class="mb-4">
+      <c-card-header>
+        <strong>User List</strong>
+      </c-card-header>
+      <c-card-body>
+        <div class="mb-2" style="display: flex; justify-content: flex-end">
+          <button type="button" class="btn btn-primary" (click)="addNewUser()">Add New User</button>
+      </div>
+      <div class="mb-3">
+          <div style="display: flex; justify-content: flex-end">
+              <input
+                  type="text"
+                  style="width:30%;"
+                  placeholder="Search"
+                  (input)="updateFilter($event)"
+              />
+          </div>
+          
+          <div style="margin: 15px;">
+              <label for="rowsPerPage">Show</label>
+              <select (change)="onLimitChange($event)">
+                <option *ngFor="let option of rowOptions" [value]="option">{{ option }}</option>
+              </select>
+              <label>rows per page</label>
+            </div>
+      
+          <ngx-datatable
+              class="bootstrap"
+              [rows]="datauser"
+              [columns]="[]"
+              [columnMode]="ColumnMode.force"
+              [headerHeight]="40"
+              [footerHeight]="40"
+              rowHeight="auto"
+              [sorts]="[{ prop: 'name', dir: 'desc' }]"
+              [limit]="rowsPerPage"
+              [count]="datauser.length" 
+          >
+            <ngx-datatable-column name="Username" prop="username"/>
+        
+            <ngx-datatable-column name="Nama" prop="nama"/>
+      
+            <ngx-datatable-column name="LDAP">
+              <ng-template ngx-datatable-cell-template let-row="row">
+                  <span *ngIf="!row.ldap">No</span>
+                  <span *ngIf="row.ldap">Yes</span>
+                </ng-template>
+            </ngx-datatable-column>
+        
+            <ngx-datatable-column name="Status">
+              <ng-template ngx-datatable-cell-template let-row="row">
+                <span *ngIf="row.status === 0" class="badge badge-danger">Inactive</span>
+                <span *ngIf="row.status === 1" class="badge badge-success">Active</span>
+              </ng-template>
+            </ngx-datatable-column>
+      
+            <ngx-datatable-column name="Action">
+              <ng-template ngx-datatable-cell-template let-row="row">
+                  <button type="button" class="btn btn-warning mr-2" (click)="editUser(row.id, row.username)">
+                      <!-- <button type="button" class="btn btn-warning" (click)="editUser()"> -->
+                      <svg cIcon name="cil-pencil" size="xl" title="Edit User Icon"></svg>
+                  </button>
+                  <button *ngIf="row.status === 0" type="button" class="btn btn-success" (click)="activateButton(row.username)">
+                      <svg cIcon name="cil-check-alt" size="xl" title="Activate Icon"></svg>
+                  </button>
+                  <button *ngIf="row.status === 1" type="button" class="btn btn-danger" (click)="activateButton(row.username)">
+                      <svg cIcon name="cil-x" size="xl" title="Deactivate Icon"></svg>
+                  </button>
+              </ng-template>
+            </ngx-datatable-column>
+            
+            
+          </ngx-datatable>
+      </div>
+      </c-card-body>
+    </c-card>
+  </c-col>
+</c-row>
+
+  
